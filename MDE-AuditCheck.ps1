@@ -113,6 +113,16 @@ foreach ($TheGPO in $AllGPOs)
             {
                 Write-Host  -ForegroundColor Yellow " Audit Filtering Platform Connection - Not Set"
             }
+            
+        if (@($currentxml.GPO.Computer.ExtensionData.Extension.AuditSetting | Where-Object {$_.SubCategoryName -Match 'Audit Filtering Platform Packet Drop'}) )
+            {
+                $AuditSetting=$currentxml.GPO.Computer.ExtensionData.Extension.AuditSetting | Where-Object {$_.SubCategoryName -Match 'Filtering Platform Packet Drop'}
+                if ($AuditSetting.SettingValue -NotIn 2) { Write-Host " Audit Filtering Platform Packet Drop - Expected setting is 2, current setting is:" $AuditSetting.SettingValue -ForegroundColor Yellow}
+            }
+        else 
+            {
+                Write-Host  -ForegroundColor Yellow " Audit Filtering Platform Packet Drop - Not Set"
+            }
 
         if (@($currentxml.GPO.Computer.ExtensionData.Extension.AuditSetting | Where-Object {$_.SubCategoryName -Match 'Audit Other Object Access Events'}) )
             {
